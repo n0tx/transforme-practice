@@ -5,6 +5,7 @@ require_once __DIR__ . '/../controllers/BookController.php';
 $bookController = new BookController();
 
 // Basic router switch
+/** @var string $path */
 switch ($path) {
     case '':
     case '/':
