@@ -1,1 +1,15 @@
+# Editor Configuration (VSCode)
+.vscode/
+
+# Composer and NPM Dependencies
+vendor/
+node_modules/
+
+# Environment Variables
+.env
+.env.local
+
+# Logs
+*.log
+
 mydocs/
