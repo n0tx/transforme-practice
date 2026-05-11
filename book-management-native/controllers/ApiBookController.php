@@ -87,4 +87,17 @@ class ApiBookController
             echo json_encode(["message" => "Gagal memperbarui buku"]);
         }
     }
+
+    public function destroy(int $id)
+    {
+        $success = $this->bookModel->delete($id);
+
+        if ($success) {
+            http_response_code(200);
+            echo json_encode(["message" => "Buku berhasil dihapus"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["message" => "Gagal menghapus buku"]);
+        }
+    }
 }

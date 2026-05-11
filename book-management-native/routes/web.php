@@ -59,7 +59,12 @@ switch ($path) {
                 break;
 
             case 'DELETE':
-                // Nanti kita arahkan ke: $apiBookController->destroy($id);
+                if (isset($_GET['id'])) {
+                    $apiBookController->destroy((int)$_GET['id']);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "ID buku diperlukan!"]);
+                }
                 break;
 
             default:
