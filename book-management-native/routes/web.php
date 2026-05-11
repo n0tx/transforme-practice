@@ -27,6 +27,44 @@ switch ($path) {
     case '/books/update':
         $bookController->update();
         break;
+
+    // --- REST API ROUTES ---
+    case '/api/books':
+        require_once __DIR__ . '/../controllers/ApiBookController.php';
+        $apiBookController = new ApiBookController();
+        
+        // Di sinilah kita mengecek Method: GET, POST, PUT, atau DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        switch ($method) {
+            case 'GET':
+                if (isset($_GET['id'])) {
+                    $apiBookController->show((int)$_GET['id']);
+                } else {
+                    $apiBookController->index();
+                }
+                break;
+            
+            case 'POST':
+                // Nanti kita arahkan ke: $apiBookController->store();
+                echo json_encode(["message" => "Bikin POST api disini"]);
+                break;
+
+            case 'PUT':
+                // Nanti kita arahkan ke: $apiBookController->update($id);
+                break;
+
+            case 'DELETE':
+                // Nanti kita arahkan ke: $apiBookController->destroy($id);
+                break;
+
+            default:
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(["message" => "Method not allowed"]);
+                break;
+        }
+        break;
+
     default:
         http_response_code(404);
         echo "404 Not Found";
