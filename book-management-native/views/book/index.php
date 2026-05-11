@@ -8,6 +8,7 @@
 
 <body>
     <h1>Daftar Buku</h1>
+    <a href="/books/create" style="text-decoration: none;">Tambah Buku Baru</a><br><br>
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
@@ -22,8 +23,8 @@
                 <td><?= htmlspecialchars($book['title']) ?></td>
                 <td><?= htmlspecialchars($book['category']) ?></td>
                 <td>
-                    <a href="/books/edit?id=<?= $book['id'] ?>">Ubah</a> | 
-                    <a href="/books/delete?id=<?= $book['id'] ?>" onclick="return confirm('Yakin hapus buku ini?');">Hapus</a>
+                    <a href="/books/edit?id=<?= $book['id'] ?>" style="text-decoration: none;">Ubah</a> |
+                    <a href="/books/delete?id=<?= $book['id'] ?>" style="text-decoration: none;" onclick="return confirm('Yakin hapus buku ini?');">Hapus</a>
                 </td>
             </tr>
         <?php endforeach; ?>
