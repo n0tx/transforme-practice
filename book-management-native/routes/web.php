@@ -50,7 +50,12 @@ switch ($path) {
                 break;
 
             case 'PUT':
-                // Nanti kita arahkan ke: $apiBookController->update($id);
+                if (isset($_GET['id'])) {
+                    $apiBookController->update((int)$_GET['id']);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "ID buku diperlukan!"]);
+                }
                 break;
 
             case 'DELETE':

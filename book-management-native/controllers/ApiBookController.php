@@ -65,4 +65,26 @@ class ApiBookController
             echo json_encode(["message" => "Gagal menambahkan buku"]);
         }
     }
+
+    public function update(int $id)
+    {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        if (!isset($data['title']) || !isset($data['category'])) {
+            http_response_code(400);
+            echo json_encode(["message" => "Data tidak lengkap. Judul dan kategori wajib diisi."]);
+            return;
+        }
+
+        $success = $this->bookModel->update($id, $data['title'], $data['category']);
+
+        if ($success) {
+            http_response_code(200);
+            echo json_encode(["message" => "Buku berhasil diperbarui"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["message" => "Gagal memperbarui buku"]);
+        }
+    }
 }
