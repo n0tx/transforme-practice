@@ -40,4 +40,29 @@ class ApiBookController
             echo json_encode(["message" => "Buku tidak ditemukan"]);
         }
     }
+
+    public function store()
+    {
+        // 1. Tangkap data JSON dari body request
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true); // true agar jadi array associative
+
+        // 2. Validasi sederhana
+        if (!isset($data['title']) || !isset($data['category'])) {
+            http_response_code(400); // Bad Request
+            echo json_encode(["message" => "Data tidak lengkap. Judul dan kategori wajib diisi."]);
+            return;
+        }
+
+        // 3. Simpan ke Database lewat Model
+        $success = $this->bookModel->create($data['title'], $data['category']);
+
+        if ($success) {
+            http_response_code(201); // Created
+            echo json_encode(["message" => "Buku berhasil ditambahkan"]);
+        } else {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(["message" => "Gagal menambahkan buku"]);
+        }
+    }
 }

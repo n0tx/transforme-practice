@@ -32,7 +32,7 @@ switch ($path) {
     case '/api/books':
         require_once __DIR__ . '/../controllers/ApiBookController.php';
         $apiBookController = new ApiBookController();
-        
+
         // Di sinilah kita mengecek Method: GET, POST, PUT, atau DELETE
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -44,10 +44,9 @@ switch ($path) {
                     $apiBookController->index();
                 }
                 break;
-            
+
             case 'POST':
-                // Nanti kita arahkan ke: $apiBookController->store();
-                echo json_encode(["message" => "Bikin POST api disini"]);
+                $apiBookController->store();
                 break;
 
             case 'PUT':
