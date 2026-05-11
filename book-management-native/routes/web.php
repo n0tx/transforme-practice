@@ -18,6 +18,9 @@ switch ($path) {
     case '/books/store':
         $bookController->store();
         break;
+    case '/books/delete':
+        $bookController->delete();
+        break;
     default:
         http_response_code(404);
         echo "404 Not Found";

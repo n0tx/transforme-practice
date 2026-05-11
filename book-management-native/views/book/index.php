@@ -13,6 +13,7 @@
             <th>ID</th>
             <th>Judul</th>
             <th>Kategori</th>
+            <th>Aksi</th>
         </tr>
         <?php /** @var array $books */ ?>
         <?php foreach ($books as $book): ?>
@@ -20,6 +21,9 @@
                 <td><?= $book['id'] ?></td>
                 <td><?= htmlspecialchars($book['title']) ?></td>
                 <td><?= htmlspecialchars($book['category']) ?></td>
+                <td>
+                    <a href="/books/delete?id=<?= $book['id'] ?>" onclick="return confirm('Yakin hapus buku ini?');">Hapus</a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>

@@ -28,4 +28,13 @@ class Book
 
         return $stmt->execute();
     }
+
+    public function delete(int $id): bool
+    {
+        $query = "DELETE FROM books WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
 }

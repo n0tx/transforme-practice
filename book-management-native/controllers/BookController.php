@@ -37,4 +37,17 @@ class BookController
             exit;
         }
     }
+
+    // Menghapus data buku
+    public function delete()
+    {
+        // Pastikan ada parameter id di URL (misal: /books/delete?id=1)
+        if (isset($_GET['id'])) {
+            $id = (int) $_GET['id'];
+            $this->bookModel->delete($id);
+        }
+        
+        header("Location: /books");
+        exit;
+    }
 }
