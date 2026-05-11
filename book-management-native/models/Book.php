@@ -37,4 +37,28 @@ class Book
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public function getById(int $id)
+    {
+        $query = "SELECT * FROM books WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        // Kita butuh mengambil datanya, bukan cuma execute
+        return $stmt->fetch();
+    }
+
+    public function update(int $id, string $title, string $category): bool
+    {
+        $query = "UPDATE books SET title = :title, category = :category WHERE id = :id";
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':category', $category);
+        return $stmt->execute();
+    }
 }

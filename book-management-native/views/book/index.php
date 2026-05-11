@@ -22,6 +22,7 @@
                 <td><?= htmlspecialchars($book['title']) ?></td>
                 <td><?= htmlspecialchars($book['category']) ?></td>
                 <td>
+                    <a href="/books/edit?id=<?= $book['id'] ?>">Ubah</a> | 
                     <a href="/books/delete?id=<?= $book['id'] ?>" onclick="return confirm('Yakin hapus buku ini?');">Hapus</a>
                 </td>
             </tr>

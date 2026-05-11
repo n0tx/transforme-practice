@@ -46,8 +46,38 @@ class BookController
             $id = (int) $_GET['id'];
             $this->bookModel->delete($id);
         }
-        
+
         header("Location: /books");
         exit;
+    }
+
+    public function edit()
+    {
+        if (isset($_GET['id'])) {
+            $id = (int) $_GET['id'];
+            $book = $this->bookModel->getById($id); // Ambil data buku
+
+            if ($book) {
+                require_once __DIR__ . '/../views/book/edit.php';
+                return;
+            }
+        }
+        // Kalau ga ada id, balik ke index
+        header("Location: /books");
+        exit;
+    }
+
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = (int) $_POST['id'];
+            $title = $_POST['title'];
+            $category = $_POST['category'];
+
+            $this->bookModel->update($id, $title, $category);
+
+            header("Location: /books");
+            exit;
+        }
     }
 }
