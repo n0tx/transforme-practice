@@ -6,15 +6,18 @@ const API_URL = 'http://localhost:8080/api/books';
 function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // State untuk form
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
+  
+  // State penanda apakah sedang dalam mode edit
+  const [editId, setEditId] = useState(null);
 
-  // Fetch books saat komponen pertama kali dirender
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  // Fungsi untuk menarik data dari API PHP
   const fetchBooks = async () => {
     try {
       const response = await fetch(API_URL);
@@ -27,14 +30,17 @@ function App() {
     }
   };
 
-  // Fungsi untuk menambah buku baru
+  // Fungsi dinamis: Jika editId ada, lakukan PUT (Update). Jika tidak, lakukan POST (Tambah).
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !category) return;
 
     try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
+      const url = editId ? `${API_URL}?id=${editId}` : API_URL;
+      const method = editId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -44,14 +50,29 @@ function App() {
       if (response.ok) {
         setTitle('');
         setCategory('');
-        fetchBooks(); // Refresh list otomatis setelah tambah sukses
+        setEditId(null); // Keluar dari mode edit
+        fetchBooks(); // Refresh list
       }
     } catch (error) {
-      console.error("Error adding book:", error);
+      console.error("Error saving book:", error);
     }
   };
 
-  // Fungsi untuk menghapus buku
+  // Memasukkan data buku ke form dan mengaktifkan mode edit
+  const handleEditClick = (book) => {
+    setTitle(book.title);
+    setCategory(book.category);
+    setEditId(book.id);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll otomatis ke atas
+  };
+
+  // Fungsi untuk membatalkan mode edit
+  const handleCancelEdit = () => {
+    setTitle('');
+    setCategory('');
+    setEditId(null);
+  };
+
   const handleDelete = async (id) => {
     if (!window.confirm('Yakin ingin menghapus buku ini?')) return;
     
@@ -61,7 +82,9 @@ function App() {
       });
       
       if (response.ok) {
-        fetchBooks(); // Refresh list otomatis setelah hapus sukses
+        // Jika sedang edit buku yang dihapus, batalkan editnya
+        if (editId === id) handleCancelEdit();
+        fetchBooks(); 
       }
     } catch (error) {
       console.error("Error deleting book:", error);
@@ -89,9 +112,16 @@ function App() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
-          <button type="submit">
-            + Tambah
+          <button type="submit" style={{ backgroundColor: editId ? 'var(--success)' : 'var(--accent)' }}>
+            {editId ? '✓ Update' : '+ Tambah'}
           </button>
+          
+          {/* Tombol batal muncul hanya saat mode edit */}
+          {editId && (
+            <button type="button" className="btn-danger" onClick={handleCancelEdit}>
+              Batal
+            </button>
+          )}
         </form>
       </div>
 
@@ -104,6 +134,13 @@ function App() {
               <h3 className="book-title">{book.title}</h3>
               <span className="book-category">{book.category}</span>
               <div className="card-actions">
+                <button 
+                  className="btn-edit" 
+                  style={{ background: 'transparent', color: 'var(--accent)', border: '1px solid var(--accent)' }}
+                  onClick={() => handleEditClick(book)}
+                >
+                  Ubah
+                </button>
                 <button className="btn-danger" onClick={() => handleDelete(book.id)}>
                   Hapus
                 </button>
