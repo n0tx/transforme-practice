@@ -136,7 +136,6 @@ function App() {
               <div className="card-actions">
                 <button 
                   className="btn-edit" 
-                  style={{ background: 'transparent', color: 'var(--accent)', border: '1px solid var(--accent)' }}
                   onClick={() => handleEditClick(book)}
                 >
                   Ubah

@@ -8,7 +8,7 @@
 
 <body>
     <h1>Daftar Buku</h1>
-    <a href="/books/create" style="text-decoration: none;">Tambah Buku Baru</a><br><br>
+    <a href="/books/create" style="text-decoration: none;">+ Tambah Buku</a><br><br>
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
