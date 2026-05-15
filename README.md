@@ -102,4 +102,3 @@ Menunjukkan bagaimana ReactJS berinteraksi dengan PHP Backend secara **Non-block
 **n0tx** - [GitHub](https://github.com/n0tx)
 
 ---
-*Project ini dibuat sebagai bagian dari persiapan interview teknis di PT Transforme Indonesia.*
